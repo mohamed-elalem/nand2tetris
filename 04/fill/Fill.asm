@@ -12,3 +12,66 @@
 // the screen should remain fully clear as long as no key is pressed.
 
 // Put your code here.
+
+(PROGRAM_LOOP)
+
+    @8191
+    D = A
+
+    @limit
+    M = D
+
+    (WHITE_LOOP)
+        @limit
+        D = M
+
+        D;JLT
+
+        @SCREEN
+        D = A
+
+        @limit
+        A = D + M
+
+        M = 0
+
+        @limit
+        M = M - 1
+
+        @WHITE_LOOP
+        0;JMP
+
+    @KBD
+    D = M
+
+    @PROGRAM_LOOP
+    D;JEQ
+    
+    @8191
+    D = A
+
+    @limit
+    M = D
+
+    (BLACK_LOOP)
+        @limit
+        D = M
+
+        D;JLT
+
+        @SCREEN
+        D = A
+
+        @limit
+        A = D + M
+
+        M = -1
+
+        @limit
+        M = M - 1
+
+        @BLACK_LOOP
+        0;JMP
+
+    @PROGRAM_LOOP
+    0;JMP
