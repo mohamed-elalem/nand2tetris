@@ -39,5 +39,35 @@ CHIP CPU {
         pc[15];          // address of next instruction
 
     PARTS:
-    // Put your code here:
+    Not(in=instruction[15], out=AInstruction);
+    And(a=instruction[15], b=true, out=CInstruction);
+    And(a=CInstruction, b=instruction[3], out=writeM);
+    Mux16(a=instruction, b=ToFirstMux, sel=CInstruction, out=FromFirstMux);
+    And(a=CInstruction, b=instruction[5], out=ARegisterLoad);
+    Or(a=AInstruction, b=ARegisterLoad, out=SaveAddress);
+    ARegister(in=FromFirstMux, load=SaveAddress, out=ToPc, out=ToSecondMux, out[0..14]=addressM);
+    Mux16(a=ToSecondMux, b=inM, sel=instruction[12], out=ToALUB);
+    And(a=instruction[4], b=CInstruction, out=RegisterDLoad);
+    DRegister(in=ToDRegister, load=RegisterDLoad, out=ToALUA);
+    ALU(x=ToALUA, y=ToALUB, zx=instruction[11], nx=instruction[10], zy=instruction[9], ny=instruction[8], f=instruction[7], no=instruction[6], out=outM, out=ToFirstMux, out=ToDRegister, zr=ZeroControl, ng=NegativeControl);
+    DMux8Way(in=CInstruction, sel=instruction[0..2], a=null, b=JGT, c=JEQ, d=JGE, e=JLT, f=JNE, g=JLE, h=JMP);
+    Not(in=NegativeControl, out=NotNegative);
+    Not(in=ZeroControl, out=NotZero);
+    And(a=NotZero, b=NotNegative, out=PositiveNonZero);
+    And(a=PositiveNonZero, b=JGT, out=JGTO);
+    And(a=JEQ, b=ZeroControl, out=JEQO);
+    And(a=JGE, b=NotNegative, out=JGEO);
+    And(a=JLT, b=NegativeControl, out=JLTO);
+    And(a=JNE, b=NotZero, out=JNEO);
+    Or(a=NegativeControl, b=ZeroControl, out=NegativeOrZero);
+    And(a=JLE, b=NegativeOrZero, out=JLEO);
+    And(a=true, b=JMP, out=JMPO);
+    Or(a=JGTO, b=JEQO, out=FirstOr);
+    Or(a=JGEO, b=JLTO, out=SecondOr);
+    Or(a=JNEO, b=JLEO, out=ThirdOr);
+    Or(a=FirstOr, b=JMPO, out=FourthOr);
+    Or(a=SecondOr, b=ThirdOr, out=FifthOr);
+    Or(a=FourthOr, b=FifthOr, out=ToPCLoad);
+    Not(in=ToPCLoad, out=Inc);
+    PC(in=ToPc, load=ToPCLoad, inc=Inc, reset=reset, out[0..14]=pc);
 }
