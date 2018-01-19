@@ -1,0 +1,21 @@
+// push constant 20
+// pop argument 2
+// push argument 2
+// push constant 42
+// pop local 1
+// push local 1
+// push argument 2
+// add
+// neg
+// push constant 55
+// pop this 5
+// push constant 22
+// pop temp 5
+// push constant 4000
+// pop pointer 1
+// push constant 3000
+// pop that 6
+
+push constant 55
+pop this 2
+push this 2
