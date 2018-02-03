@@ -1,0 +1,35 @@
+/** Hello World */
+
+class compile_test {
+    field int x, z, p, w, g;
+    field int y, w,g, lf, knskdn, ksdn;
+    static boolean hello, kfnf, jasbjb;
+
+    constructor compile_test new() {
+    }
+
+    function void World(int x, boolean y) {
+    }
+
+    method int HelloWorld(int x, boolean va) {
+        var int a, b, c;
+        var int ee, ff, gg;
+        let a = 6;
+        let b = (5 + 6) * (2 + (46 / 5));
+        let c = "Hello World!" + 50;
+        let a[500] = 50;
+        let Hello.there = 48;
+        if((a + b) < 5) {
+            let x = 6;
+            let y = 8;
+        }
+        while((a + b) < 5) {
+            let x = 6;
+            let y = 8;
+        }
+        let x = HelloWorld(a + 50, (-b + 8), c);
+        do World(a + 50, (-b + 8), c);
+        do Hello.World(a, b, c);
+        return ((y + size) < 254) & ((x + size) < 510);
+    }
+}
